@@ -7,6 +7,9 @@ const { NotImplementedError } = require('../extensions/index.js');
 * using Node from extensions
 */
 class BinarySearchTree {
+  constructor() {
+    this.root = null;
+  }
 
   root() {
     return this.root;
@@ -31,31 +34,86 @@ class BinarySearchTree {
     }
   }
 
-  has(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+  has(data) {
+    return search(this.root, data);
 
-  find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+      function search(node, data) {
+        if (!node) {
+          return false;
+        }
+        if (node.data === data) {
+          return true;
+        }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+        return data < node.data ?
+        search(node.left, data):
+        search(node.right, data);
+      }
+    }
 
-  min() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    remove(data) {
+      this.root = removeNode(this.root, value);
+      
+    function removeNode( node, value){
+      if(!node){
+        return null;
+      }
+      if( value < node.value){
+        node.left = removeNode(node.left, value);
+        return node;
+      } else if(node.value < value){
+        node.right = removeNode(node.right, value);
+        return node;
+      } else{
+        if( !node.left && !node.right){
+          return null;
+        }
+        if(!node.left){
+          node = node.right;
+          return node;
+        }
+        let MinFromRight = node.right;
+        while (MinFromRight.left){
+          MinFromRight = MinFromRight.left;
+        }
+        node.value = MinFromRight.value;
 
-  max() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
-}
+        node.right = removeNode(node.right, MinFromRight.value);
+        return node;
+      }
+    }
+    }
+
+    find( data) {
+
+    }
+
+    remove( data) {
+
+    }
+
+    min() {
+      if (!this.root) {
+        return;
+      }
+  
+      let min = this.root;
+      while (min.left) {
+        min = min.left;
+      }
+      return min.data;
+    }
+
+    max() {
+      if (!this.root) {
+        return;
+      }
+      let max = this.root;
+      while (max.left) {
+        max = max.left;
+      }
+      return max.data;
+  }}
 
 module.exports = {
   BinarySearchTree
